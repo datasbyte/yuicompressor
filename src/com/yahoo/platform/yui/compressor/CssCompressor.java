@@ -75,7 +75,7 @@ public class CssCompressor {
             // one, maybe more? put'em back then
             if (token.indexOf("___YUICSSMIN_PRESERVE_CANDIDATE_COMMENT_") >= 0) {
                 for (i = 0, max = comments.size(); i < max; i += 1) {
-                    token = token.replace("___YUICSSMIN_PRESERVE_CANDIDATE_COMMENT_" + i + "___", comments.get(i).toString());
+                    token = token.replaceAll("___YUICSSMIN_PRESERVE_CANDIDATE_COMMENT_" + i + "___", comments.get(i).toString());
                 }
             }
             
@@ -100,7 +100,7 @@ public class CssCompressor {
             // so push to the preserved tokens while stripping the !
             if (token.startsWith("!")) {
                 preservedTokens.add(token);
-                css = css.replace(placeholder,  "___YUICSSMIN_PRESERVED_TOKEN_" + (preservedTokens.size() - 1) + "___");
+                css = css.replaceAll(placeholder,  "___YUICSSMIN_PRESERVED_TOKEN_" + (preservedTokens.size() - 1) + "___");
                 continue;
             }
             
@@ -108,10 +108,10 @@ public class CssCompressor {
             // shorten that to /*\*/ and the next one to /**/
             if (token.endsWith("\\")) {
                 preservedTokens.add("\\");
-                css = css.replace(placeholder,  "___YUICSSMIN_PRESERVED_TOKEN_" + (preservedTokens.size() - 1) + "___");
+                css = css.replaceAll(placeholder,  "___YUICSSMIN_PRESERVED_TOKEN_" + (preservedTokens.size() - 1) + "___");
                 i = i + 1; // attn: advancing the loop
                 preservedTokens.add("");
-                css = css.replace("___YUICSSMIN_PRESERVE_CANDIDATE_COMMENT_" + i + "___",  "___YUICSSMIN_PRESERVED_TOKEN_" + (preservedTokens.size() - 1) + "___");            
+                css = css.replaceAll("___YUICSSMIN_PRESERVE_CANDIDATE_COMMENT_" + i + "___",  "___YUICSSMIN_PRESERVED_TOKEN_" + (preservedTokens.size() - 1) + "___");            
                 continue;
             }
             
@@ -122,13 +122,13 @@ public class CssCompressor {
                 if (startIndex > 2) {
                     if (css.charAt(startIndex - 3) == '>') {
                         preservedTokens.add("");
-                        css = css.replace(placeholder,  "___YUICSSMIN_PRESERVED_TOKEN_" + (preservedTokens.size() - 1) + "___");
+                        css = css.replaceAll(placeholder,  "___YUICSSMIN_PRESERVED_TOKEN_" + (preservedTokens.size() - 1) + "___");
                     }
                 }
             }
             
             // in all other cases kill the comment
-            css = css.replace("/*" + placeholder + "*/", "");
+            css = css.replaceAll("/\\*" + placeholder + "\\*/", "");
         }
 
 
@@ -259,7 +259,7 @@ public class CssCompressor {
 
         // restore preserved comments and strings
         for(i = 0, max = preservedTokens.size(); i < max; i++) {
-            css = css.replace("___YUICSSMIN_PRESERVED_TOKEN_" + i + "___", preservedTokens.get(i).toString());
+            css = css.replaceAll("___YUICSSMIN_PRESERVED_TOKEN_" + i + "___", preservedTokens.get(i).toString());
         }
 
         // Trim the final string (for any leading or trailing white spaces)
