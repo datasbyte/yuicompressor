@@ -253,7 +253,8 @@ public class CssCompressor {
             css = sb.toString();
 
             if (linebreakpos == 0) {
-                css = css.replaceAll("(@[charset|import][^;]+;)", "$1\n");
+                css = css.replaceAll("(@charset [^;]+;)", "$1\n");
+                css = css.replaceAll("(@import [^;]+;)", "$1\n");
                 css = css.replaceAll("(@media[^{]*\\{)", "$1\n");
             }
         }
